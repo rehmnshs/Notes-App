@@ -8,41 +8,39 @@ function App() {
   const [books, setBooks] = useState([]);
  
   const fetchbooks = async() =>{
-    const resp = await axios.get('http://localhost:3001/books')
-    setBooks(resp.data);
+    const username =  "rehman";
+    const resp = await axios.get('http://localhost:5001/getone',{username})
+    setBooks(resp.data.data);
+    console.log(resp.data.data);
   }
   useEffect( () =>{
     fetchbooks();
         },[]); 
     
-  const deleteBookById = async(id) => {
-const resp= await axios.delete(`http://localhost:3001/books/${id}`)
-console.log(resp);
-   const updatedBooks = books.filter((book)=>{
-return book.id !==id;
-   });
+  const deleteBookById = async(book) => {
   
-    setBooks(updatedBooks);
+    console.log(book);
+const resp= await axios.delete('http://localhost:5001/delete',{data:{book:book}});
+console.log(resp);
+  window.location.reload();
   };
 
   const createBook = async(title) => {
-     const resp = await axios.post('http://localhost:3001/books',{
-      title
+     const resp = await axios.post('http://localhost:5001/register',{
+      title,
+      username:"rehman"
      });
 
 console.log(resp);
+window.location.reload();
 
 
-   const updatedBooks = [
-      ...books,
-      resp.data
-    ];
-    setBooks(updatedBooks);
+    
   };
 
   return (
     <div className="app">
-      <BookList books={books} onDelete={deleteBookById} />
+     <BookList books={books} onDelete={deleteBookById} />
       <BookCreate onCreate={createBook} />
       
     </div>

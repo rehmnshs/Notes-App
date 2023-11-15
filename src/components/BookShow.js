@@ -1,13 +1,13 @@
 
 function BookShow({ book, onDelete }) {
   const handleClick = () => {
-    onDelete(book.id);
+    onDelete(book);
   };
 
   return (
     <div className="book-show">
 
-    <div>{book.title}</div>
+    <div>{book}</div>
       
       <div className="actions">
         <button className="delete" onClick={handleClick}>
